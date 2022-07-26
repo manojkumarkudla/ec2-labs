@@ -1,0 +1,44 @@
+---
+- hosts: web
+  become: true
+  tasks:
+    - name: Update the  apt-get
+      apt:
+        update_cache: yes
+
+    - name: Install apache2
+      apt:
+        name: "apache2"
+        state: present
+
+    - name: copy my index page
+      copy:
+        src: "index.html"
+        dest: "/var/www/html/index.html"
+
+    - name: Create a directory if it does not exist
+        file:
+          path: "{{website_path}}"
+          state: directory
+      - name: Copy my index page
+        copy:
+          src: "index.html"
+          dest: "{{website_path}}/index.html"
+      - name: Copy configuration file for apache
+          copy:
+            src: "manoj.conf"
+            dest: "/etc/apache2/sites-available/manoj.conf"
+
+      - name: Enable site for manoj.conf
+        command:
+          a2ensite manoj.conf
+
+      - name: Disable site for default.conf
+        command:
+          a2dissite 000-default.conf
+
+
+    - name: Restart apache2 server
+      service:
+        name: apache2
+        state: restarted
