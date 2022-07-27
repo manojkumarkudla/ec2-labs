@@ -21,7 +21,7 @@ data "aws_vpc" "talent_academy" {
 data "aws_subnet" "public" {
   filter {
     name   = "tag:Name"
-    values = ["public_subnet"]
-  }
+    values = ["public"]
+   }
 
 }
