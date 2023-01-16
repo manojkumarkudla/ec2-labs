@@ -8,7 +8,7 @@ resource "aws_instance" "web" {
 
 
   tags = {
-    Name = "ansible-server"
+    Name = "ansible-server-1"
   }
 }
 
